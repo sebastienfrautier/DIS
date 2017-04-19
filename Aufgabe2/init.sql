@@ -3,10 +3,46 @@ drop table estate;
 drop table house;
 drop table appartment;
 drop table person;
-/*drop table purchase_contract;
+drop table purchase_contract;
 drop table contract;
-drop table tenancy_contract;*/
+drop table tenancy_contract;
+drop table sells;
+drop table rents;
+drop table manages;
 
+CREATE TABLE manages(PRIMARY KEY(makler_id,estate_id),
+	makler_id int not null,
+	estate_id int not null,
+		constraint makler_id_constraint
+		foreign key (makler_id) references makler(id) on delete cascade,
+		constraint estate_id_constraint
+		foreign key (estate_id) references estate(id) on delete cascade
+);
+
+CREATE TABLE rents(PRIMARY KEY(appartment_id,person_id,tenancy_contract_id),
+	tenancy_contract_id int not null,
+	appartment_id int not null,
+	person_id int not null,
+		constraint appartment_id_constraint
+		foreign key (appartment_id) references appartment(id) on delete cascade,
+		constraint estate_id_constraint
+		foreign key (person_id) references person(id) on delete cascade,
+		constraint tenancy_id_constraint
+		foreign key (tenancy_contract_id) references tenancy_contract(id) on delete cascade
+);
+
+
+CREATE TABLE sells(PRIMARY KEY(house_id,person_id,purchase_contract_id),
+	house_id int not null,
+	person_id int not null,
+	purchase_contract_id int not null,
+		constraint house_id_constraint
+		foreign key (house_id) references house(id) on delete cascade,
+		constraint estate_id_constraint
+		foreign key (person_id) references person(id) on delete cascade,
+		constraint purchase_contract_id
+		foreign key (purchase_contract_id) references purchase_contract(id) on delete cascade
+);
 
 CREATE TABLE makler(id INTEGER NOT NULL GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1, NO CACHE) PRIMARY KEY,
   name varchar(255),
@@ -50,7 +86,7 @@ CREATE TABLE person(id INTEGER NOT NULL GENERATED ALWAYS AS IDENTITY (START WITH
    name varchar(255),
    address varchar(255));
 
-CREATE TABLE contract(id INTEGER NOT NULL GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1, NO CACHE) PRIMARY KEY,
+CREATE TABLE tenancy_contract(id INTEGER NOT NULL GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1, NO CACHE) PRIMARY KEY,
    contract_no varchar(255),
    date date,
    place_id varchar(255));
