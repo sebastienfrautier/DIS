@@ -16,7 +16,8 @@ CREATE TABLE manages(PRIMARY KEY(makler_id,estate_id),
 		constraint makler_id_constraint
 		foreign key (makler_id) references makler(id) on delete cascade,
 		constraint estate_id_constraint
-		foreign key (estate_id) references estate(id) on delete cascade
+		foreign key (estate_id) references estate(id) on delete cascade,
+		constraint uniquename unique (estate_id)
 );
 
 CREATE TABLE rents(PRIMARY KEY(appartment_id,person_id,tenancy_contract_id),
@@ -55,10 +56,10 @@ CREATE TABLE estate(id INTEGER NOT NULL GENERATED ALWAYS AS IDENTITY (START WITH
   postalcode varchar(40),
   street varchar(40),
   street_number varchar(40),
-  square_area varchar(40),
-  makler_id int,
+  square_area varchar(40)
+  /*, makler_id int,
    constraint estate_constraint
-   foreign key (makler_id) references makler(id) on delete cascade
+   foreign key (makler_id) references makler(id) on delete cascade */
   );
 
 CREATE TABLE house(id INTEGER NOT NULL GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1, NO CACHE) PRIMARY KEY,

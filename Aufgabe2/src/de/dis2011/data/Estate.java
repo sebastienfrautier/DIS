@@ -27,7 +27,6 @@ public class Estate {
     private String street;
     private String street_number;
     private String square_area;
-    private int makler_id;
 
 
     public String getPostalcode() {
@@ -79,15 +78,6 @@ public class Estate {
         this.square_area = square_area;
     }
 
-    public int getMakler_id() {
-        return makler_id;
-    }
-
-    public void setMakler_id(int makler_id) {
-        this.makler_id = makler_id;
-    }
-
-
 
 
     /**
@@ -115,7 +105,6 @@ public class Estate {
                 ts.setStreet(rs.getString("street"));
                 ts.setStreet_number(rs.getString("street_number"));
                 ts.setSquare_area(rs.getString("square_area"));
-                ts.setMakler_id(rs.getInt("makler_id"));
 
                 rs.close();
                 pstmt.close();
@@ -139,7 +128,7 @@ public class Estate {
             if (getId() == -1) {
                 // Achtung, hier wird noch ein Parameter mitgegeben,
                 // damit spC$ter generierte IDs zurC<ckgeliefert werden!
-                String insertSQL = "INSERT INTO estate(city, postalcode, street, street_number,square_area, makler_id) VALUES (?, ?, ? ,?,?,?)";
+                String insertSQL = "INSERT INTO estate(city, postalcode, street, street_number,square_area) VALUES (?, ?, ?, ?, ?)";
 
                 PreparedStatement pstmt = con.prepareStatement(insertSQL,
                         Statement.RETURN_GENERATED_KEYS);
@@ -150,15 +139,13 @@ public class Estate {
                 pstmt.setString(3, getStreet());
                 pstmt.setString(4, getStreet_number());
                 pstmt.setString(5, getSquare_area());
-                pstmt.setInt(6, getMakler_id());
-                System.out.println("execute!!!");
-                System.out.println(getMakler_id());
+
                 pstmt.executeUpdate();
 
                 // Hole die Id des engefC<gten Datensatzes
                 ResultSet rs = pstmt.getGeneratedKeys();
                 if (rs.next()) {
-                    System.out.println("HIER");
+
                     System.out.println(rs.getInt(1));
                     setId(rs.getInt(1));
                 }
@@ -176,7 +163,6 @@ public class Estate {
                 pstmt.setString(3, getStreet());
                 pstmt.setString(4, getStreet_number());
                 pstmt.setString(5, getSquare_area());
-                pstmt.setInt(6, getMakler_id());
 
                 pstmt.executeUpdate();
 

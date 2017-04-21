@@ -1,7 +1,9 @@
 package de.dis2011;
 
+import de.dis2011.data.Apartment;
 import de.dis2011.data.Estate;
 import de.dis2011.data.Makler;
+import de.dis2011.data.Manages;
 
 /**
  * Hauptklasse
@@ -21,12 +23,18 @@ public class Main {
 		//Menüoptionen
 		final int MENU_MAKLER = 0;
 		final int MENU_ESTATE = 2;
+		final int MENU_MANAGES = 3;
+		final int MENU_HOUSE = 4;
+		final int MENU_APARTMENT = 5;
 		final int QUIT = 1;
 		
 		//Erzeuge Menü
 		Menu mainMenu = new Menu("Hauptmenü");
 		mainMenu.addEntry("Makler-Verwaltung", MENU_MAKLER);
 		mainMenu.addEntry("Estate-Verwaltung", MENU_ESTATE);
+		mainMenu.addEntry("Manages-Verwaltung", MENU_MANAGES);
+		mainMenu.addEntry("House-Verwaltung", MENU_HOUSE);
+		mainMenu.addEntry("Appartment-Verwaltung", MENU_APARTMENT);
 		mainMenu.addEntry("House-Verwaltung", MENU_MAKLER);
 		mainMenu.addEntry("Beenden", QUIT);
 		
@@ -41,10 +49,140 @@ public class Main {
 				case MENU_ESTATE:
 					showEstateMenu();
 					break;
+				case MENU_MANAGES:
+					showManagesMenu();
+					break;
+				case MENU_HOUSE:
+					showHouseMenu();
+					break;
+				case MENU_APARTMENT:
+					showApartmentMenu();
+					break;
 				case QUIT:
 					return;
 			}
 		}
+	}
+
+
+
+
+	public static void showHouseMenu() {
+		//Menüoptionen
+		final int NEW_HOUSE = 0;
+		final int BACK = 1;
+
+		//Maklerverwaltungsmenü
+		Menu managesMenu = new Menu("Apartment-Manages");
+		managesMenu.addEntry("Neuer Apartment", NEW_HOUSE);
+		managesMenu.addEntry("Zurück zum Hauptmenü", BACK);
+
+		//Verarbeite Eingabe
+		while(true) {
+			int response = managesMenu.show();
+
+			switch(response) {
+				case NEW_HOUSE:
+					newHouse();
+					break;
+				case BACK:
+					return;
+			}
+		}
+	}
+
+
+	public static void newHouse() {
+		Apartment e = new Apartment();
+
+
+		e.setEstate_id(FormUtil.readInt("estates_id"));
+		e.setFloors(FormUtil.readString("floors"));
+		e.setPrice(FormUtil.readString("price"));
+		e.setGarden(FormUtil.readString("garden"));
+		e.save();
+
+		System.out.println("House mit estate "+e.getEstate_id()+" wurde erzeugt.");
+	}
+
+
+
+
+	public static void showApartmentMenu() {
+		//Menüoptionen
+		final int NEW_APARTMENT = 0;
+		final int BACK = 1;
+
+		//Maklerverwaltungsmenü
+		Menu managesMenu = new Menu("Apartment-Manages");
+		managesMenu.addEntry("Neuer Apartment", NEW_APARTMENT);
+		managesMenu.addEntry("Zurück zum Hauptmenü", BACK);
+
+		//Verarbeite Eingabe
+		while(true) {
+			int response = managesMenu.show();
+
+			switch(response) {
+				case NEW_APARTMENT:
+					newApartment();
+					break;
+				case BACK:
+					return;
+			}
+		}
+	}
+
+
+	public static void newApartment() {
+		Apartment e = new Apartment();
+
+
+		e.setEstate_id(FormUtil.readInt("estates_id"));
+		e.setFloors(FormUtil.readString("floors"));
+		e.setPrice(FormUtil.readString("price"));
+		e.setGarden(FormUtil.readString("garden"));
+		e.save();
+
+		System.out.println("Apartment mit estate "+e.getEstate_id()+" wurde erzeugt.");
+	}
+
+
+
+
+
+	public static void showManagesMenu() {
+		//Menüoptionen
+		final int NEW_MANAGES = 0;
+		final int BACK = 1;
+
+		//Maklerverwaltungsmenü
+		Menu managesMenu = new Menu("Estate-Manages");
+		managesMenu.addEntry("Neuer Manages", NEW_MANAGES);
+		managesMenu.addEntry("Zurück zum Hauptmenü", BACK);
+
+		//Verarbeite Eingabe
+		while(true) {
+			int response = managesMenu.show();
+
+			switch(response) {
+				case NEW_MANAGES:
+					newManages();
+					break;
+				case BACK:
+					return;
+			}
+		}
+	}
+
+
+	public static void newManages() {
+		Manages e = new Manages();
+
+		e.setEstate_id(FormUtil.readInt("estates_id"));
+		e.setMakler_id(FormUtil.readInt("makler_id"));
+		e.save();
+
+		System.out.println("Manages mit estate "+e.getEstate_id()+" und makler"+e.getMakler_id()+" wurde erzeugt.");
 	}
 
 	/**
@@ -86,7 +224,6 @@ public class Main {
 		e.setStreet_number(FormUtil.readString("street_number"));
 		e.setCity(FormUtil.readString("city"));
 		e.setSquare_area(FormUtil.readString("square_area"));
-		e.setMakler_id(FormUtil.readInt("makler_id"));
 		e.save();
 
 		System.out.println("Estate mit der ID "+e.getId()+" wurde erzeugt.");
